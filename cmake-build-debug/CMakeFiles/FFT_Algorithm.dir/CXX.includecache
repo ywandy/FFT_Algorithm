@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../inc/FFT.h
+iostream
+-
+cmath
+../inc/cmath
+bitset
+-
+time.h
+-
+
+/home/yewei/CLionProjects/FFT_Algorithm/src/FFT.cpp
+FFT.h
+/home/yewei/CLionProjects/FFT_Algorithm/src/FFT.h
+
+/home/yewei/CLionProjects/FFT_Algorithm/src/main.cpp
+iostream
+-
+FFT.h
+/home/yewei/CLionProjects/FFT_Algorithm/src/FFT.h
+
