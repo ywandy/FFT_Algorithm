@@ -3,8 +3,9 @@
 //
 #include "FFT.h"
 using namespace std;
-#define FFT_ORDER_COUNT 4096
-double Test_Array[FFT_ORDER_COUNT];
+#define FFT_ORDER_COUNT 4096 //修改测试点数
+double Test_Array[FFT_ORDER_COUNT]; //测试傅里叶算法的数组
+
 int Add_Complex(Complex * Src1,Complex * Src2,Complex * dest){
     dest->imagin = Src1->imagin+Src2->imagin;
     dest->real = Src1->real+Src2->real;
@@ -110,7 +111,7 @@ void FFT(double * src,Complex * dst,int size_n,double *passtime_t){
     if(size_n!=(1<<k))
         exit(0);
     Complex * src_com=(Complex*)malloc(sizeof(Complex)*size_n);
-    if(src_com==NULL)
+    if(src_com== nullptr)
         exit(0);
     for(int i=0;i<size_n;i++){
         src_com[i].real=src[i];
@@ -147,11 +148,11 @@ void FFT(double * src,Complex * dst,int size_n,double *passtime_t){
 int FFT_Run_Test(){ //快速傅里叶测试函数
     double time_pass;
     Complex dest[FFT_ORDER_COUNT];
-    Make_Test_sequence(Test_Array,FFT_ORDER_COUNT); //0-16的数组
+    Make_Test_sequence(Test_Array,FFT_ORDER_COUNT); //0-x的数组
     cout<<"The Original Array X(n) is:"<<endl;
     ShowAll_Array(Test_Array,FFT_ORDER_COUNT);
-    FFT(Test_Array,dest,FFT_ORDER_COUNT,&time_pass);
-    //showAll_Array_Complex(dest,FFT_ORDER_COUNT);
+    FFT(Test_Array,dest,FFT_ORDER_COUNT,&time_pass); //进行傅里叶变化
+    //showAll_Array_Complex(dest,FFT_ORDER_COUNT); //解开注释就可以显示傅里叶变换对
 
     return 0;
 }
