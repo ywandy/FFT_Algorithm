@@ -33,15 +33,6 @@ int Mul_Complex(Complex * Src1,Complex * Src2,Complex * dest){
 }
 
 
-////////////////////////////////////////////////////////////////////
-//在FFT中有一个WN的n次方项，在迭代中会不断用到，具体见算法说明
-///////////////////////////////////////////////////////////////////
-void getWN(double n,double size_n,Complex * dst){
-    double x=2.0*M_PI*n/size_n;
-    dst->imagin=-sin(x);
-    dst->real=cos(x);
-}
-
 void Get_W_n(double n,double size_n,Complex * dst){
     double x=2.0*M_PI*n/size_n;
     dst->imagin=-sin(x);
