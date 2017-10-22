@@ -3,7 +3,7 @@
 //
 #include "FFT.h"
 using namespace std;
-#define FFT_ORDER_COUNT 4096 //修改测试点数
+#define FFT_ORDER_COUNT 16 //修改测试点数
 double Test_Array[FFT_ORDER_COUNT]; //测试傅里叶算法的数组
 
 int Add_Complex(Complex * Src1,Complex * Src2,Complex * dest){
@@ -94,7 +94,7 @@ int BitReverse_Array(double * inp,int count){
 
 
 
-void FFT(double * src,Complex * dst,int size_n,double *passtime_t){
+void FFT(double * src,Complex * dest,int size_n){
     BitReverse_Array(src, size_n); //数组倒序
     cout<<"Change the Array Order x1(n) is:"<<endl;
     ShowAll_Array(src,size_n);
@@ -106,39 +106,35 @@ void FFT(double * src,Complex * dst,int size_n,double *passtime_t){
     start=clock();
     while (k/=2) {
         z++;
-    }
+    } //k的奇数偶数判断
     k=z;
     if(size_n!=(1<<k))
         exit(0);
-    Complex * src_com=(Complex*)malloc(sizeof(Complex)*size_n);
-    if(src_com== nullptr)
-        exit(0);
     for(int i=0;i<size_n;i++){
-        src_com[i].real=src[i];
-        src_com[i].imagin=0;
+        dest[i].real=src[i];
+        dest[i].imagin=0;
     }
     for(int i=0;i<k;i++){
         z=0;
         for(int j=0;j<size_n;j++){
             if((j/(1<<i))%2==1){
                 Complex wn;
+                //计算Wn
                 Get_W_n(z, size_n, &wn);
-                Mul_Complex(&src_com[j], &wn,&src_com[j]);
+                //Wn和x相乘
+                Mul_Complex(&dest[j], &wn,&dest[j]);
                 z+=1<<(k-i-1);
                 Complex temp;
                 int neighbour=j-(1<<(i));
-                temp.real=src_com[neighbour].real;
-                temp.imagin=src_com[neighbour].imagin;
-                Add_Complex(&temp, &src_com[j], &src_com[neighbour]);
-                Sub_Complex(&temp, &src_com[j], &src_com[j]);
+                temp.real=dest[neighbour].real;
+                temp.imagin=dest[neighbour].imagin;
+                //蝶形运算
+                Add_Complex(&temp, &dest[j], &dest[neighbour]);
+                Sub_Complex(&temp, &dest[j], &dest[j]);
             }
             else
                 z=0;
         }
-    }
-    for(int i=0;i<size_n;i++){
-        dst[i].imagin=src_com[i].imagin;
-        dst[i].real=src_com[i].real;
     }
     end=clock();
     printf("DFT use time :%lf for Datasize of:%d\n",(double)(end-start)/CLOCKS_PER_SEC,size_n);
@@ -151,8 +147,8 @@ int FFT_Run_Test(){ //快速傅里叶测试函数
     Make_Test_sequence(Test_Array,FFT_ORDER_COUNT); //0-x的数组
     cout<<"The Original Array X(n) is:"<<endl;
     ShowAll_Array(Test_Array,FFT_ORDER_COUNT);
-    FFT(Test_Array,dest,FFT_ORDER_COUNT,&time_pass); //进行傅里叶变化
-    //showAll_Array_Complex(dest,FFT_ORDER_COUNT); //解开注释就可以显示傅里叶变换对
+    FFT(Test_Array,dest,FFT_ORDER_COUNT); //进行傅里叶变化
+    showAll_Array_Complex(dest,FFT_ORDER_COUNT); //解开注释就可以显示傅里叶变换对
 
     return 0;
 }

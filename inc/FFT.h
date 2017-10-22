@@ -18,7 +18,7 @@ typedef Complex_ Complex;
 int test_print();
 void ShowAll_Array(double inp[],int count);
 int BitReverse_Array(double * inp,int count);
-void FFT(double * src,Complex * dst,int size_n,double *passtime_t);
+void FFT(double * src,Complex * dest,int size_n);
 int FFT_Run_Test();
 #endif //FFT_ALGORITHM_FFT_H
 
